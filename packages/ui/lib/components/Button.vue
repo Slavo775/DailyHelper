@@ -1,16 +1,16 @@
 <template>
-  <button>
+  <NButton>
     <slot></slot>
-  </button>
+  </NButton>
 </template>
 
-<style scoped>
-button {
-  border: none;
-  padding: 10px 20px;
-  background: blue;
-  color: white;
-  border-radius: 5px;
-  /* some other stuff */
-}
-</style>
+<script lang="ts">
+import { defineComponent } from "vue";
+import { NButton } from "naive-ui";
+
+export default defineComponent({
+  components: { NButton },
+});
+</script>
+
+<style scoped></style>

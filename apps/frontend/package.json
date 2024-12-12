@@ -10,9 +10,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@daily-helper/ui": "workspace:^1.0.0",
     "nuxt": "^3.14.1592",
+    "nuxtjs-naive-ui": "1.0.2",
     "vue": "latest",
-    "vue-router": "latest",
-    "@daily-helper/ui": "workspace:^1.0.0"
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "sass": "npm:sass-embedded@^1.82.0"
   }
 }
