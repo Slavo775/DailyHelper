@@ -1,5 +1,5 @@
 <template>
-  <UiLayoutsDefaultLayout>
+  <UiLayoutsDefaultLayout v-model:collapsed="menuCollapsed">
     <template #header>
       <div class="layout-default__logo">
         <img src="/imgs/logo.png" width="327" height="80" />
@@ -9,34 +9,84 @@
       <slot />
     </template>
     <template #sider>
-      <UiNavigation :menu-options="menuOptions" />
+      <UiNavigation :menu-options="menuOptions" :collapsed="menuCollapsed" />
     </template>
   </UiLayoutsDefaultLayout>
 </template>
 
 <script lang="ts">
 import type { MenuOptions } from "@daily-helper/ui/lib/components/Navigation.vue";
-import logo from "";
+import { RouterLink } from "vue-router";
+import { Autocorrect20Filled } from "@vicons/fluent";
+import type { RenderIcon } from "@daily-helper/ui/types";
 
-const menuOptions: MenuOptions = [
+const getMenuOptions = (renderIcon: RenderIcon): MenuOptions => [
   {
-    label: "Hear the Wind Sing",
-    key: "hear-the-wind-sing",
-    href: "https://en.wikipedia.org/wiki/Hear_the_Wind_Sing",
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: "sentence-corrector",
+            params: {
+              lang: "zh-CN",
+            },
+          },
+        },
+        { default: () => "Sentence Corrector" }
+      ),
+    key: "sentence-corrector",
+    icon: renderIcon(Autocorrect20Filled),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            name: "sentence-corrector",
+            params: {
+              lang: "zh-CN",
+            },
+          },
+        },
+        { default: () => "Sentence Corrector" }
+      ),
+    key: "sentence-corrector-1",
+    icon: renderIcon(Autocorrect20Filled),
   },
 ];
 
 export default defineComponent({
   setup() {
-    return { menuOptions };
+    const { $renderIcon } = useNuxtApp();
+    const menuOptions = getMenuOptions($renderIcon);
+
+    const menuCollapsed = ref(false);
+
+    return { menuOptions, menuCollapsed };
   },
 });
 </script>
 
 <style lang="scss">
 .layout-default {
+  display: flex;
+  align-items: center;
   &__logo {
     display: flex;
+
+    width: 327px;
+    height: 80px;
+
+    @include respond-to("sm") {
+      width: 200px;
+      height: 49px;
+      & img {
+        width: 200px;
+        height: 49px;
+      }
+    }
   }
 }
 </style>
