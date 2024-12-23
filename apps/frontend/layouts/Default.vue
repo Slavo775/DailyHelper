@@ -11,13 +11,16 @@
       <slot />
     </template>
     <template #sider>
-      <UiNavigation :menu-options="menuOptions" :collapsed="menuCollapsed" />
+      <UiNaiveNavigation
+        :menu-options="menuOptions"
+        :collapsed="menuCollapsed"
+      />
     </template>
   </UiLayoutsDefaultLayout>
 </template>
 
 <script lang="ts">
-import type { MenuOptions } from '@daily-helper/ui/lib/components/Navigation.vue'
+import type { MenuOptions } from '@daily-helper/ui/lib/components/NaiveNavigation.vue'
 import { RouterLink } from 'vue-router'
 import { Autocorrect20Filled, Home12Regular } from '@vicons/fluent'
 import type { RenderIcon } from '@daily-helper/ui/types'

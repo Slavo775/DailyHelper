@@ -1,11 +1,13 @@
 <template>
-  <NButton round :type="type" @click="handleClick"><slot /></NButton>
+  <NButton round :type="type" @click="handleClick">
+    <slot />
+  </NButton>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
-import { NButton, NFormItemGi } from 'naive-ui'
+import { NButton } from 'naive-ui'
 import { Type } from 'naive-ui/es/button/src/interface'
 
 export default defineComponent({
@@ -25,7 +27,6 @@ export default defineComponent({
   },
   components: {
     NButton,
-    NFormItemGi,
   },
 })
 </script>

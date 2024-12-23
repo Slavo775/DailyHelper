@@ -14,16 +14,23 @@
       item-responsive
       responsive="screen"
     >
-      <template v-for="(element, index) in formOptions.elements">
+      <template
+        v-for="(element, index) in formOptions.elements"
+        :key="`form-${index}`"
+      >
         <NFormItemGi v-bind="resolveVBind(index)">
           <NInput
-            v-if="index.toString() !== 'button'"
             :is="resolveInputElement(index)"
-            v-model:value="formModelLocal[element?.path as string]"
+            v-if="index.toString() !== 'button'"
+            v-model:value="formModelLocal[(element as TextInputElement)?.path as string]"
           />
-          <Button v-else :type="element.type" @click="onFormSubmit">
-            {{ element.buttonText || element.buttonContent || 'Click me!' }}
-          </Button>
+          <NaiveButton
+            v-else
+            :type="(element as ButtonElement).type"
+            @click="onFormSubmit"
+          >
+            {{ (element as ButtonElement).buttonContent || 'Click me!' }}
+          </NaiveButton>
         </NFormItemGi>
       </template>
     </NGrid>
@@ -36,7 +43,7 @@ import type { Component, PropType } from 'vue'
 import { NForm, NGrid, NFormItemGi, NInput } from 'naive-ui'
 import type { FormRules, FormValidationError } from 'naive-ui'
 import TextInput from './TextInput.vue'
-import Button from './Button.vue'
+import NaiveButton from './NaiveButton.vue'
 import { useVModel } from '@vueuse/core'
 
 export enum ElementType {
@@ -103,7 +110,7 @@ export default defineComponent({
         case 'textInput':
           return TextInput
         case 'button':
-          return Button
+          return NaiveButton
         default:
           return 'textInput'
       }
@@ -130,14 +137,12 @@ export default defineComponent({
 
     const formModelLocal = useVModel(props, 'formModel', emit)
 
-    const onFormSubmit = () => {
+    const onFormSubmit = () =>
       formElement.value?.validate(
-        (errors: Array<FormValidationError> | undefined) => {
-          console.log(errors)
+        (errors: Array<FormValidationError> | undefined) =>
           !errors ? emit('submit') : emit('submit-error', errors)
-        }
       )
-    }
+
     return {
       formElement,
       resolveInputElement,
@@ -146,7 +151,7 @@ export default defineComponent({
       onFormSubmit,
     }
   },
-  components: { NForm, NGrid, TextInput, Button, NFormItemGi, NInput },
+  components: { NForm, NGrid, TextInput, NaiveButton, NFormItemGi, NInput },
 })
 </script>
 

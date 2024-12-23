@@ -1,8 +1,8 @@
 <template>
-  <UiButton>This is it!</UiButton>
+  <div>Hello daily helper!</div>
 </template>
 <script lang="ts">
 export default defineComponent({
   setup() {},
-});
+})
 </script>
