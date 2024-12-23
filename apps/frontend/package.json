@@ -10,13 +10,18 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@daily-helper/gemini-handler": "workspace:^1.0.0",
     "@daily-helper/ui": "workspace:^1.0.0",
+    "@pinia/nuxt": "0.9.0",
     "nuxt": "^3.14.1592",
     "nuxtjs-naive-ui": "1.0.2",
+    "pinia": "^2.3.0",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@vicons/fluent": "^0.13.0",
+    "@vicons/utils": "^0.1.4",
     "sass": "npm:sass-embedded@^1.82.0"
   }
 }
