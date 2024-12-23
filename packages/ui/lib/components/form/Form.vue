@@ -2,19 +2,24 @@
   <NForm
     ref="formElement"
     :rules="formOptions.rules"
-    :size="formOptions.size"
+    :size="formOptions.size ?? 'medium'"
     :model="formModelLocal"
+    :disabled="disabled"
+    @keydown.enter.prevent="onFormSubmit"
   >
     <NGrid
       :span="formOptions.gridOptions?.span ?? 24"
       :x-gap="formOptions.gridOptions?.xGap ?? 20"
+      :y-gap="formOptions.gridOptions?.yGap ?? 20"
+      item-responsive
+      responsive="screen"
     >
       <template v-for="(element, index) in formOptions.elements">
         <NFormItemGi v-bind="resolveVBind(index)">
           <NInput
             v-if="index.toString() !== 'button'"
             :is="resolveInputElement(index)"
-            v-model:value="formModelLocal[element.path]"
+            v-model:value="formModelLocal[element?.path as string]"
           />
           <Button v-else :type="element.type" @click="onFormSubmit">
             {{ element.buttonText || element.buttonContent || 'Click me!' }}
@@ -39,13 +44,13 @@ export enum ElementType {
   Button = 'button',
 }
 type TextInputElement = {
-  span: number
+  span: number | string
   id: string
   label: string
   path: string
 }
 type ButtonElement = {
-  span?: number
+  span?: number | string
   id: string
   type?: 'primary' | 'success' | 'warning' | 'error' | 'info'
   buttonContent: Component | string
@@ -56,9 +61,11 @@ type ButtonRecord = Record<ElementType.Button, ButtonElement>
 
 export type FormConfig = {
   rules: FormRules
+  size?: 'small' | 'medium' | 'large'
   gridOptions: {
-    span: number
-    xGap: number
+    span: number | string
+    xGap?: number | string
+    yGap?: number | string
   }
   elements: Partial<TextInputRecord & ButtonRecord>
   formElementOptions?: {
@@ -76,6 +83,10 @@ export default defineComponent({
     formModel: {
       type: Object as PropType<Record<string, string | null>>,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: {
@@ -119,7 +130,7 @@ export default defineComponent({
 
     const formModelLocal = useVModel(props, 'formModel', emit)
 
-    const onFormSubmit = (e: Event) => {
+    const onFormSubmit = () => {
       formElement.value?.validate(
         (errors: Array<FormValidationError> | undefined) => {
           console.log(errors)

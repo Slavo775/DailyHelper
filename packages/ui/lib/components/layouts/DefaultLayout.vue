@@ -1,7 +1,14 @@
 <template>
   <NLayout style="height: 100%">
     <NLayout style="padding: 10px; height: 100px">
-      <NLayoutHeader style="height: 100%; display: flex; align-items: center">
+      <NLayoutHeader
+        style="
+          height: 100%;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+        "
+      >
         <slot name="header" />
       </NLayoutHeader>
     </NLayout>
@@ -28,15 +35,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 import {
   NLayout,
   NLayoutHeader,
   NLayoutContent,
   NLayoutFooter,
   NLayoutSider,
-} from "naive-ui";
-import { useVModel } from "@vueuse/core";
+} from 'naive-ui'
+import { useVModel } from '@vueuse/core'
 
 export default defineComponent({
   props: {
@@ -45,11 +52,11 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: { "update:collapsed": (value: boolean) => typeof value === "boolean" },
+  emits: { 'update:collapsed': (value: boolean) => typeof value === 'boolean' },
   setup(props, { emit }) {
-    const collapsed = useVModel(props, "collapsed", emit);
+    const collapsed = useVModel(props, 'collapsed', emit)
 
-    return { collapsed };
+    return { collapsed }
   },
   components: {
     NLayout,
@@ -58,5 +65,5 @@ export default defineComponent({
     NLayoutFooter,
     NLayoutSider,
   },
-});
+})
 </script>

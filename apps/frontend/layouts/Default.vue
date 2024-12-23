@@ -2,7 +2,9 @@
   <UiLayoutsDefaultLayout v-model:collapsed="menuCollapsed">
     <template #header>
       <div class="layout-default__logo">
-        <img src="/imgs/logo.png" width="327" height="80" />
+        <NuxtLink to="/">
+          <img src="/imgs/logo.png" width="327" height="80" />
+        </NuxtLink>
       </div>
     </template>
     <template #content>
@@ -15,10 +17,10 @@
 </template>
 
 <script lang="ts">
-import type { MenuOptions } from "@daily-helper/ui/lib/components/Navigation.vue";
-import { RouterLink } from "vue-router";
-import { Autocorrect20Filled } from "@vicons/fluent";
-import type { RenderIcon } from "@daily-helper/ui/types";
+import type { MenuOptions } from '@daily-helper/ui/lib/components/Navigation.vue'
+import { RouterLink } from 'vue-router'
+import { Autocorrect20Filled, Home12Regular } from '@vicons/fluent'
+import type { RenderIcon } from '@daily-helper/ui/types'
 
 const getMenuOptions = (renderIcon: RenderIcon): MenuOptions => [
   {
@@ -26,16 +28,25 @@ const getMenuOptions = (renderIcon: RenderIcon): MenuOptions => [
       h(
         RouterLink,
         {
+          to: '/',
+        },
+        { default: () => 'Home' }
+      ),
+    key: 'index',
+    icon: renderIcon(Home12Regular),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
           to: {
-            name: "sentence-corrector",
-            params: {
-              lang: "zh-CN",
-            },
+            name: 'sentence-corrector',
           },
         },
-        { default: () => "Sentence Corrector" }
+        { default: () => 'Sentence Corrector' }
       ),
-    key: "sentence-corrector",
+    key: 'sentence-corrector',
     icon: renderIcon(Autocorrect20Filled),
   },
   {
@@ -44,29 +55,26 @@ const getMenuOptions = (renderIcon: RenderIcon): MenuOptions => [
         RouterLink,
         {
           to: {
-            name: "sentence-corrector",
-            params: {
-              lang: "zh-CN",
-            },
+            name: 'sentence-corrector',
           },
         },
-        { default: () => "Sentence Corrector" }
+        { default: () => 'Sentence Corrector' }
       ),
-    key: "sentence-corrector-1",
+    key: 'sentence-corrector-1',
     icon: renderIcon(Autocorrect20Filled),
   },
-];
+]
 
 export default defineComponent({
   setup() {
-    const { $renderIcon } = useNuxtApp();
-    const menuOptions = getMenuOptions($renderIcon);
+    const { $renderIcon } = useNuxtApp()
+    const menuOptions = getMenuOptions($renderIcon)
 
-    const menuCollapsed = ref(false);
+    const menuCollapsed = ref(false)
 
-    return { menuOptions, menuCollapsed };
+    return { menuOptions, menuCollapsed }
   },
-});
+})
 </script>
 
 <style lang="scss">
@@ -79,7 +87,7 @@ export default defineComponent({
     width: 327px;
     height: 80px;
 
-    @include respond-to("sm") {
+    @include respond-to('sm') {
       width: 200px;
       height: 49px;
       & img {
