@@ -6,6 +6,7 @@ on:
 
 jobs:
   lint:
+    name: eslint
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18' # Specify the Node.js version you're using
-          cache: 'pnpm' # Cache pnpm dependencies
 
       # Step 3: Install pnpm
       - name: Install pnpm
