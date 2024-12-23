@@ -1,16 +1,27 @@
 <template>
-  <NInput v-model:value="inputValueLocal[path]" />
+  <NInput v-model:value="inputValueLocal" />
 </template>
 
 <script lang="ts">
-import { NFormItemGi, NInput } from 'naive-ui'
+import { useVModel } from '@vueuse/core'
+import { NInput } from 'naive-ui'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  setup() {},
+  props: {
+    value: {
+      type: String,
+      required: true,
+    },
+  },
+  emits: { 'updae:value': (value: string) => typeof value === 'string' },
+  setup(props, { emit }) {
+    const inputValueLocal = useVModel(props, 'value', emit)
+
+    return { inputValueLocal }
+  },
   components: {
     NInput,
-    NFormItemGi,
   },
 })
 </script>

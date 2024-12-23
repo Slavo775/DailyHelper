@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
@@ -16,8 +17,11 @@
   },
   "devDependencies": {
     "@vueuse/core": "^12.0.0",
+    "eslint": "^8.57.0 || ^9.0.0",
+    "eslint-plugin-vue": "^9.32.0",
     "i": "^0.3.7",
     "naive-ui": "^2.40.3",
-    "npm": "^10.9.2"
+    "npm": "^10.9.2",
+    "typescript-eslint": "^8.18.2"
   }
 }

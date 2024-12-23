@@ -1,5 +1,5 @@
-import { Component, h } from "vue";
-import { NIcon } from "naive-ui";
+import { Component, h } from 'vue'
+import { NIcon } from 'naive-ui'
 
 export default defineNuxtPlugin(() => {
   return {
@@ -7,5 +7,5 @@ export default defineNuxtPlugin(() => {
       renderIcon: (icon: Component) => () =>
         h(NIcon, null, { default: () => h(icon) }),
     },
-  };
-});
+  }
+})

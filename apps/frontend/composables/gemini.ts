@@ -1,5 +1,4 @@
 import { ref } from 'vue'
-import type { GenerateContentResult } from '@daily-helper/gemini-handler'
 
 export function useGemini() {
   const loading = ref<boolean>(false)
@@ -17,8 +16,6 @@ export function useGemini() {
       )
 
       return response.result
-    } catch (e) {
-      throw e
     } finally {
       loading.value = false
     }

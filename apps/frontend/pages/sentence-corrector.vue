@@ -5,17 +5,20 @@
       class="sentence-corrector__messages"
       style="white-space: pre-line"
     >
-      <template v-for="sentence in correctedSentences">
-        <UiCard
+      <template
+        v-for="(sentence, index) in correctedSentences"
+        :key="`${sentence}-${index}`"
+      >
+        <UiNaiveCard
           :title="sentence.originalSentence"
           :content="sentence.correctedSentence"
-          :footerContent="formatDate(sentence.date)"
+          :footer-content="formatDate(sentence.date)"
         />
       </template>
     </div>
-    <UiForm
-      v-model:formModel="formModel"
-      :formOptions="formConfig"
+    <UiFormNaiveForm
+      v-model:form-model="formModel"
+      :form-options="formConfig"
       :disabled="loading"
       @submit="onSubmit"
     />
@@ -23,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import type { FormConfig } from '@daily-helper/ui/lib/components/form/Form.vue'
+import type { FormConfig } from '@daily-helper/ui/lib/components/form/NaiveForm.vue'
 import { useCorrectSentenceStore } from '~/store/correctSentence'
 import { storeToRefs } from 'pinia'
 
@@ -66,13 +69,12 @@ export default defineComponent({
       },
     }
 
-    const scrollMeesagesContainerToTheBottom = () => {
+    const scrollMeesagesContainerToTheBottom = () =>
       messagesContainer.value &&
-        messagesContainer.value.scroll({
-          top: messagesContainer.value.scrollHeight,
-          behavior: 'smooth',
-        })
-    }
+      messagesContainer.value.scroll({
+        top: messagesContainer.value.scrollHeight,
+        behavior: 'smooth',
+      })
 
     const resetFormModel = () => {
       formModel.value = { sentence: '' }

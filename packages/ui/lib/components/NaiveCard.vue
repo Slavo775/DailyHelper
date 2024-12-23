@@ -1,7 +1,7 @@
 <template>
   <NCard
     :title="title"
-    contentClass="card__content"
+    content-class="card__content"
     :segmented="{
       content: true,
       footer: 'soft',
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { NCard } from 'naive-ui'
 import VueMarkdown from 'vue-markdown-render'
 

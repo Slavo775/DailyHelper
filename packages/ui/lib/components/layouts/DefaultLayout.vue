@@ -17,10 +17,10 @@
         collapse-mode="width"
         :collapsed-width="64"
         :width="240"
-        :collapsed="collapsed"
+        :collapsed="collapsedLocal"
         show-trigger
-        @collapse="collapsed = true"
-        @expand="collapsed = false"
+        @collapse="collapsedLocal = true"
+        @expand="collapsedLocal = false"
       >
         <slot name="sider" />
       </NLayoutSider>
@@ -54,9 +54,9 @@ export default defineComponent({
   },
   emits: { 'update:collapsed': (value: boolean) => typeof value === 'boolean' },
   setup(props, { emit }) {
-    const collapsed = useVModel(props, 'collapsed', emit)
+    const collapsedLocal = useVModel(props, 'collapsed', emit)
 
-    return { collapsed }
+    return { collapsedLocal }
   },
   components: {
     NLayout,
