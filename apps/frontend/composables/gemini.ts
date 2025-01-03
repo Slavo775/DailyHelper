@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { apiRoutes } from '~/config/apiRoutes'
+import type { SuggestNamingApiQuery } from '~/types/naming'
 
 export function useGemini() {
   const loading = ref<boolean>(false)
@@ -40,9 +41,28 @@ export function useGemini() {
     }
   }
 
+  const suggestNaming = async (data: SuggestNamingApiQuery) => {
+    try {
+      loading.value = true
+
+      const response = await $fetch<{ result: string }>(
+        apiRoutes.suggestNaming,
+        {
+          method: 'get',
+          query: data,
+        }
+      )
+
+      return response.result
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     correctSentence,
     translateSentence,
+    suggestNaming,
   }
 }
