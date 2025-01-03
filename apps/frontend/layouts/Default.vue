@@ -20,53 +20,7 @@
 </template>
 
 <script lang="ts">
-import type { MenuOptions } from '@daily-helper/ui/lib/components/NaiveNavigation.vue'
-import { RouterLink } from 'vue-router'
-import { Autocorrect20Filled, Home12Regular } from '@vicons/fluent'
-import type { RenderIcon } from '@daily-helper/ui/types'
-
-const getMenuOptions = (renderIcon: RenderIcon): MenuOptions => [
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: '/',
-        },
-        { default: () => 'Home' }
-      ),
-    key: 'index',
-    icon: renderIcon(Home12Regular),
-  },
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            name: 'sentence-corrector',
-          },
-        },
-        { default: () => 'Sentence Corrector' }
-      ),
-    key: 'sentence-corrector',
-    icon: renderIcon(Autocorrect20Filled),
-  },
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            name: 'sentence-corrector',
-          },
-        },
-        { default: () => 'Sentence Corrector' }
-      ),
-    key: 'sentence-corrector-1',
-    icon: renderIcon(Autocorrect20Filled),
-  },
-]
+import { getMenuOptions } from '~/config/menuOptions'
 
 export default defineComponent({
   setup() {
