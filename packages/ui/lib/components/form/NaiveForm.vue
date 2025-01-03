@@ -20,9 +20,13 @@
       >
         <NFormItemGi v-bind="resolveVBind(index)">
           <NInput
-            :is="resolveInputElement(index)"
-            v-if="index.toString() !== 'button'"
+            v-if="index.toString() === 'textInput'"
             v-model:value="formModelLocal[(element as TextInputElement)?.path as string]"
+          />
+          <NSelect
+            v-else-if="index.toString() === 'select'"
+            v-model:value="formModelLocal[(element as SelectElement)?.path as string]"
+            :options="(element as SelectElement).options"
           />
           <NaiveButton
             v-else
@@ -40,15 +44,15 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import type { Component, PropType } from 'vue'
-import { NForm, NGrid, NFormItemGi, NInput } from 'naive-ui'
+import { NForm, NGrid, NFormItemGi, NInput, NSelect } from 'naive-ui'
 import type { FormRules, FormValidationError } from 'naive-ui'
-import TextInput from './TextInput.vue'
 import NaiveButton from './NaiveButton.vue'
 import { useVModel } from '@vueuse/core'
 
 export enum ElementType {
   TextInput = 'textInput',
   Button = 'button',
+  Select = 'select',
 }
 type TextInputElement = {
   span: number | string
@@ -63,8 +67,17 @@ type ButtonElement = {
   buttonContent: Component | string
 }
 
+type SelectElement = {
+  span?: number | string
+  id: string
+  label: string
+  path: string
+  options: { label: string; value: string; disabled?: boolean }[]
+}
+
 type TextInputRecord = Record<ElementType.TextInput, TextInputElement>
 type ButtonRecord = Record<ElementType.Button, ButtonElement>
+type SelectRecord = Record<ElementType.Select, SelectElement>
 
 export type FormConfig = {
   rules: FormRules
@@ -74,7 +87,7 @@ export type FormConfig = {
     xGap?: number | string
     yGap?: number | string
   }
-  elements: Partial<TextInputRecord & ButtonRecord>
+  elements: Partial<TextInputRecord & ButtonRecord & SelectRecord>
   formElementOptions?: {
     labelPlacement?: 'top' | 'left'
     size?: 'small' | 'medium' | 'large'
@@ -105,16 +118,6 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const formElement = ref<HTMLFormElement | null>(null)
-    const resolveInputElement = (elementType: ElementType) => {
-      switch (elementType) {
-        case 'textInput':
-          return TextInput
-        case 'button':
-          return NaiveButton
-        default:
-          return 'textInput'
-      }
-    }
 
     const resolveVBind = (elementType: ElementType) => {
       const element = props.formOptions.elements[elementType]
@@ -126,10 +129,17 @@ export default defineComponent({
             label: (element as TextInputElement).label,
             path: (element as TextInputElement).path,
           }
+        case ElementType.Select:
+          return {
+            span: (element as SelectElement).span,
+            label: (element as SelectElement).label,
+            path: (element as SelectElement).path,
+          }
         case ElementType.Button:
           return {
             span: (element as ButtonElement).span,
           }
+
         default:
           return {}
       }
@@ -145,13 +155,19 @@ export default defineComponent({
 
     return {
       formElement,
-      resolveInputElement,
       resolveVBind,
       formModelLocal,
       onFormSubmit,
     }
   },
-  components: { NForm, NGrid, TextInput, NaiveButton, NFormItemGi, NInput },
+  components: {
+    NForm,
+    NGrid,
+    NaiveButton,
+    NFormItemGi,
+    NInput,
+    NSelect,
+  },
 })
 </script>
 

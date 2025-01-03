@@ -7,7 +7,7 @@
     >
       <template
         v-for="(sentence, index) in correctedSentences"
-        :key="`${sentence}-${index}`"
+        :key="`${sentence.originalSentence}-${index}`"
       >
         <UiNaiveCard
           :title="sentence.originalSentence"
@@ -69,11 +69,13 @@ export default defineComponent({
       },
     }
 
-    const scrollMeesagesContainerToTheBottom = () =>
+    const scrollMeesagesContainerToTheBottom = (
+      scrollBehavior: ScrollBehavior = 'smooth'
+    ) =>
       messagesContainer.value &&
       messagesContainer.value.scroll({
         top: messagesContainer.value.scrollHeight,
-        behavior: 'smooth',
+        behavior: scrollBehavior,
       })
 
     const resetFormModel = () => {
@@ -82,7 +84,7 @@ export default defineComponent({
 
     onMounted(async () => {
       await correctSentenceStore.initCorrectedSentences()
-      scrollMeesagesContainerToTheBottom()
+      scrollMeesagesContainerToTheBottom('instant')
     })
 
     const onSubmit = async () => {
