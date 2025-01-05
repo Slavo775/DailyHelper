@@ -7,7 +7,7 @@
     >
       <template
         v-for="(sentence, index) in correctedSentences"
-        :key="`${sentence}-${index}`"
+        :key="`${sentence.originalSentence}-${index}`"
       >
         <UiNaiveCard
           :title="sentence.originalSentence"
@@ -29,6 +29,7 @@
 import type { FormConfig } from '@daily-helper/ui/lib/components/form/NaiveForm.vue'
 import { useCorrectSentenceStore } from '~/store/correctSentence'
 import { storeToRefs } from 'pinia'
+import { ElementType } from '@daily-helper/ui/lib/components/form/NaiveForm.vue'
 
 export default defineComponent({
   setup() {
@@ -54,26 +55,30 @@ export default defineComponent({
         yGap: 0,
       },
 
-      elements: {
-        textInput: {
+      elements: [
+        {
+          elementType: ElementType.TextInput,
           span: '14 s:24 m:20 l:20 xl:20',
           id: 'sentence',
           label: 'Upravovana veta',
           path: 'sentence',
         },
-        button: {
+        {
+          elementType: ElementType.Button,
           id: 'submit',
           buttonContent: 'Odeslat',
           span: '24 s:24 m:4 l:4 xl:4',
         },
-      },
+      ],
     }
 
-    const scrollMeesagesContainerToTheBottom = () =>
+    const scrollMeesagesContainerToTheBottom = (
+      scrollBehavior: ScrollBehavior = 'smooth'
+    ) =>
       messagesContainer.value &&
       messagesContainer.value.scroll({
         top: messagesContainer.value.scrollHeight,
-        behavior: 'smooth',
+        behavior: scrollBehavior,
       })
 
     const resetFormModel = () => {
@@ -82,7 +87,7 @@ export default defineComponent({
 
     onMounted(async () => {
       await correctSentenceStore.initCorrectedSentences()
-      scrollMeesagesContainerToTheBottom()
+      scrollMeesagesContainerToTheBottom('instant')
     })
 
     const onSubmit = async () => {

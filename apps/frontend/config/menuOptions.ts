@@ -1,5 +1,6 @@
 import { Autocorrect20Filled, Home12Regular } from '@vicons/fluent'
-import { GTranslateRound } from '@vicons/material'
+import { GTranslateRound, LightbulbOutlined } from '@vicons/material'
+import { SmartHome } from '@vicons/tabler'
 import { RouterLink } from 'vue-router'
 import type { RenderIcon } from '@daily-helper/ui/types'
 import type { MenuOptions } from '@daily-helper/ui/lib/components/NaiveNavigation.vue'
@@ -44,5 +45,25 @@ export const getMenuOptions = (renderIcon: RenderIcon): MenuOptions => [
       ),
     key: 'sentence-translator',
     icon: renderIcon(GTranslateRound),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        { to: { name: 'suggest-naming' } },
+        { default: () => 'Suggested Naming' }
+      ),
+    key: 'suggested-naming',
+    icon: renderIcon(LightbulbOutlined),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        { to: { name: 'home-assistant-naming' } },
+        { default: () => 'HA Naming' }
+      ),
+    key: 'home-assistant-naming',
+    icon: renderIcon(SmartHome),
   },
 ]

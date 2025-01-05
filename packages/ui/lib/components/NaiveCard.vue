@@ -57,7 +57,7 @@ export default defineComponent({
       & > p,
       & > ul {
         margin: 0;
-        line-height: 1;
+        line-height: 2;
       }
     }
   }
