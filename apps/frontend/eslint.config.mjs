@@ -5,6 +5,7 @@ export default withNuxt(
   {
     rules: {
       'vue/html-self-closing': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
     },
   }
   // Your custom configs here

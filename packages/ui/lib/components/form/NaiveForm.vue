@@ -16,15 +16,15 @@
     >
       <template
         v-for="(element, index) in formOptions.elements"
-        :key="`form-${index}`"
+        :key="`form-${index}-${element.elementType}`"
       >
-        <NFormItemGi v-bind="resolveVBind(index)">
+        <NFormItemGi v-bind="resolveVBind(element)">
           <NInput
-            v-if="index.toString() === 'textInput'"
+            v-if="element.elementType === 'textInput'"
             v-model:value="formModelLocal[(element as TextInputElement)?.path as string]"
           />
           <NSelect
-            v-else-if="index.toString() === 'select'"
+            v-else-if="element.elementType === 'select'"
             v-model:value="formModelLocal[(element as SelectElement)?.path as string]"
             :options="(element as SelectElement).options"
           />
@@ -55,12 +55,14 @@ export enum ElementType {
   Select = 'select',
 }
 type TextInputElement = {
+  elementType: ElementType.TextInput
   span: number | string
   id: string
   label: string
   path: string
 }
 type ButtonElement = {
+  elementType: ElementType.Button
   span?: number | string
   id: string
   type?: 'primary' | 'success' | 'warning' | 'error' | 'info'
@@ -68,6 +70,7 @@ type ButtonElement = {
 }
 
 type SelectElement = {
+  elementType: ElementType.Select
   span?: number | string
   id: string
   label: string
@@ -75,9 +78,7 @@ type SelectElement = {
   options: { label: string; value: string; disabled?: boolean }[]
 }
 
-type TextInputRecord = Record<ElementType.TextInput, TextInputElement>
-type ButtonRecord = Record<ElementType.Button, ButtonElement>
-type SelectRecord = Record<ElementType.Select, SelectElement>
+type Element = TextInputElement | SelectElement | ButtonElement
 
 export type FormConfig = {
   rules: FormRules
@@ -87,7 +88,7 @@ export type FormConfig = {
     xGap?: number | string
     yGap?: number | string
   }
-  elements: Partial<TextInputRecord & ButtonRecord & SelectRecord>
+  elements: Element[]
   formElementOptions?: {
     labelPlacement?: 'top' | 'left'
     size?: 'small' | 'medium' | 'large'
@@ -119,10 +120,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const formElement = ref<HTMLFormElement | null>(null)
 
-    const resolveVBind = (elementType: ElementType) => {
-      const element = props.formOptions.elements[elementType]
+    const resolveVBind = (element: Element) => {
       if (!element) return
-      switch (elementType) {
+      switch (element.elementType) {
         case ElementType.TextInput:
           return {
             span: (element as TextInputElement).span,

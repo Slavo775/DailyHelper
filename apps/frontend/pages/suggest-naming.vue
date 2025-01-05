@@ -28,6 +28,7 @@ import { defineComponent } from 'vue'
 import { useSuggestedNamingStore } from '~/store/suggestedNaming'
 import { storeToRefs } from 'pinia'
 import { NamingPurpose } from '~/types/naming'
+import { ElementType } from '@daily-helper/ui/lib/components/form/NaiveForm.vue'
 
 const formConfig: FormConfig = {
   rules: {
@@ -43,14 +44,16 @@ const formConfig: FormConfig = {
     yGap: 0,
   },
 
-  elements: {
-    textInput: {
+  elements: [
+    {
+      elementType: ElementType.TextInput,
       span: '14 s:24 m:16 l:16 xl:16',
       id: 'description',
       label: 'Popis',
       path: 'description',
     },
-    select: {
+    {
+      elementType: ElementType.Select,
       span: '14 s:24 m:4 l:4 xl:4',
       id: 'purpose',
       label: 'Účel',
@@ -60,12 +63,13 @@ const formConfig: FormConfig = {
         { label: 'Variable', value: 'variable' },
       ],
     },
-    button: {
+    {
+      elementType: ElementType.Button,
       id: 'submit',
       buttonContent: 'Odeslat',
       span: '24 s:24 m:4 l:4 xl:4',
     },
-  },
+  ],
 }
 
 export default defineComponent({
@@ -127,7 +131,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .suggest-naming {
   display: flex;
   flex-direction: column;
