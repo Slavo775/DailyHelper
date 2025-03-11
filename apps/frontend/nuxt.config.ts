@@ -23,4 +23,7 @@ export default defineNuxtConfig({
       geminiApiKey: process.env.GEMINI_API_KEY,
     },
   },
+  nitro: {
+    preset: 'static' // Ensures fully static build
+  }
 })
