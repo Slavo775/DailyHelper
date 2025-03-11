@@ -16,24 +16,24 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-          
-      - name: Install pnpm
-        run: corepack enable && corepack prepare pnpm@latest --activate
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false
 
       - name: Install dependencies
-        run: pnpm run -r install
+        run: pnpm install
 
       - name: Build project
-        run: pnpm run -r generate
+        run: pnpm generate
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
