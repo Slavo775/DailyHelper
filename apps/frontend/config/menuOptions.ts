@@ -1,4 +1,8 @@
-import { Autocorrect20Filled, Home12Regular } from '@vicons/fluent'
+import {
+  Autocorrect20Filled,
+  Home12Regular,
+  TicketDiagonal24Regular,
+} from '@vicons/fluent'
 import { GTranslateRound, LightbulbOutlined } from '@vicons/material'
 import { SmartHome } from '@vicons/tabler'
 import { RouterLink } from 'vue-router'
@@ -65,5 +69,15 @@ export const getMenuOptions = (renderIcon: RenderIcon): MenuOptions => [
       ),
     key: 'home-assistant-naming',
     icon: renderIcon(SmartHome),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        { to: { name: 'jira-ticket-generator' } },
+        { default: () => 'Jira ticket generator' }
+      ),
+    key: 'jira-ticket-generator',
+    icon: renderIcon(TicketDiagonal24Regular),
   },
 ]
