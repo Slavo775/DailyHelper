@@ -118,7 +118,7 @@ export default defineComponent({
     const resolveJson = (json: string | Record<string, string>) => {
       try {
         return typeof json === 'object' ? json : JSON.parse(json)
-      } catch (e) {
+      } catch {
         return json
       }
     }
