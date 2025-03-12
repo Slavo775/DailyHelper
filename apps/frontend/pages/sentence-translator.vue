@@ -6,14 +6,24 @@
       style="white-space: pre-line"
     >
       <template
-        v-for="(sentence, index) in translatedSentences"
+        v-for="(sentence, index) in processedCorrectedSentences"
         :key="`${sentence}-${index}`"
       >
-        <UiNaiveCard
-          :title="sentence.originalSentence"
-          :content="sentence.correctedSentence"
-          :footer-content="formatDate(sentence.date)"
-        />
+        <template v-if="typeof sentence.correctedSentence === 'string'">
+          <UiNaiveCard
+            :title="sentence.originalSentence"
+            :content="sentence.correctedSentence"
+            :footer-content="formatDate(sentence.date)"
+          />
+        </template>
+        <template v-else>
+          <UiNaiveCard
+            :title="sentence.originalSentence"
+            :footer-content="formatDate(sentence.date)"
+          >
+            <UiTextJsonRenderer :json="sentence.correctedSentence" />
+          </UiNaiveCard>
+        </template>
       </template>
     </div>
     <UiFormNaiveForm
@@ -95,7 +105,7 @@ export default defineComponent({
         const result = await translateSentence(formModel.value.sentence)
         translateSentenceStore.addToTranslatedSentences({
           originalSentence: formModel.value.sentence,
-          correctedSentence: result,
+          correctedSentence: extractJsonFromString(result),
           date: new Date(),
         })
         setTimeout(scrollMeesagesContainerToTheBottom, 100)
@@ -105,14 +115,30 @@ export default defineComponent({
       }
     }
 
+    const resolveJson = (json: string | Record<string, string>) => {
+      try {
+        return typeof json === 'object' ? json : JSON.parse(json)
+      } catch (e) {
+        return json
+      }
+    }
+
+    const processedCorrectedSentences = computed(() =>
+      translatedSentences.value.map((sentence) => ({
+        ...sentence,
+        correctedSentence: resolveJson(sentence.correctedSentence),
+      }))
+    )
+
     return {
       formConfig,
       onSubmit,
       formModel,
       loading,
-      translatedSentences,
       formatDate,
       messagesContainer,
+      resolveJson,
+      processedCorrectedSentences,
     }
   },
 })
