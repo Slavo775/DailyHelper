@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/eslint',
   ],
+
   plugins: ['@daily-helper/ui/lib/plugins/icon.ts'],
   vite: {
     css: {
@@ -24,6 +25,11 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    preset: 'static' // Ensures fully static build
-  }
+    prerender: {
+      crawlLinks: false, // Disable crawling
+    },
+  },
+  build: {
+    transpile: ['vueuc'], // This will transpile vueuc for Nuxt
+  },
 })

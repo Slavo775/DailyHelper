@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 type TranslatedSentence = {
   originalSentence: string
-  correctedSentence: string
+  correctedSentence: string | Record<string, string>
   date: Date
 }
 
