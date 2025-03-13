@@ -2,19 +2,20 @@
   <div class="text-json-renderer">
     <template v-for="(text, index) in json" :key="index">
       <div class="text-json-renderer__text">
-        <span class="text-json-renderer__text__index"
-          ><strong>{{ index }}</strong
-          >:</span
-        >
+        <span class="text-json-renderer__text__index">
+          <strong>{{ index }}</strong>
+          :
+        </span>
         <span>{{ text }}</span>
         <NaiveButton
           class="text-json-renderer__text__copy-button"
-          @click="copyToClipboard(text.toString())"
           strong
           secondary
           circle
-          ><NIcon><ContentCopyFilled /></NIcon
-        ></NaiveButton>
+          @click="copyToClipboard(text.toString())"
+        >
+          <NIcon> <ContentCopyFilled /> </NIcon>
+        </NaiveButton>
       </div>
     </template>
   </div>
@@ -53,17 +54,21 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 5px;
+  flex-wrap: wrap;
   &__text {
     display: flex;
     align-items: center;
     padding: 5px;
     border-radius: 5px;
     gap: 10px;
+
     &:hover {
       background-color: rgba(236, 236, 236, 0.1);
     }
     &__index {
       text-transform: capitalize;
+      white-space: nowrap;
+      min-width: 150px;
     }
     &__copy-button {
       justify-self: flex-end;

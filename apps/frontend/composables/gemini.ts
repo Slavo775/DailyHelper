@@ -59,10 +59,29 @@ export function useGemini() {
     }
   }
 
+  const generateJiraTicket = async (ticketDescription: string) => {
+    try {
+      loading.value = true
+
+      const response = await $fetch<{ result: string }>(
+        apiRoutes.jiraTicketGenerator,
+        {
+          method: 'get',
+          query: { ticketDescription },
+        }
+      )
+
+      return response.result
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     correctSentence,
     translateSentence,
     suggestNaming,
+    generateJiraTicket,
   }
 }
