@@ -6,7 +6,7 @@
           <strong>{{ index }}</strong>
           :
         </span>
-        <span>{{ text }}</span>
+        <span><VueMarkdown :source="text" /></span>
         <NaiveButton
           class="text-json-renderer__text__copy-button"
           strong
@@ -26,6 +26,7 @@ import { defineComponent, PropType } from 'vue'
 import { ContentCopyFilled } from '@vicons/material'
 import NaiveButton from './form/NaiveButton.vue'
 import { NIcon } from 'naive-ui'
+import VueMarkdown from 'vue-markdown-render'
 
 export default defineComponent({
   props: {
@@ -45,6 +46,7 @@ export default defineComponent({
     NaiveButton,
     NIcon,
     ContentCopyFilled,
+    VueMarkdown,
   },
 })
 </script>
@@ -61,6 +63,11 @@ export default defineComponent({
     padding: 5px;
     border-radius: 5px;
     gap: 10px;
+
+    & p,
+    ul {
+      margin: 0;
+    }
 
     &:hover {
       background-color: rgba(236, 236, 236, 0.1);

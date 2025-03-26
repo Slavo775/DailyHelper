@@ -14,7 +14,7 @@ const getGenerativeAI = (apikey: string) => {
 export const askGemini = async (question: string, apiKey: string) => {
   const generativeAI = getGenerativeAI(apiKey)
   if (!generativeAI) return null
-  const model = generativeAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+  const model = generativeAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
   const result = await model.generateContent(question)
   return result
 }

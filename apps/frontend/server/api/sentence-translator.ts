@@ -19,7 +19,7 @@ const validateQuestion = (question: string | undefined) => {
 export default defineEventHandler(async (event) => {
   const { question } = getQuery<{ question: string }>(event)
   const postQuestionText =
-    'preloz tuto vetu do anglictiny prosim a daj mi to v JSON formate Record<string, string> mozes mi navrhnut aj viac levelov formality'
+    'preloz tuto vetu do anglictiny prosim a daj mi to v JSON formate Record<string, string> (e.g {formal: string, mid-formal: string}) mozes mi navrhnut aj viac levelov formality'
 
   const config = useRuntimeConfig()
   const geminiKey = config.private.geminiApiKey
